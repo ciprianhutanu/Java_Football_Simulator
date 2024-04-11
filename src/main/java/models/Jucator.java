@@ -2,7 +2,6 @@ package models;
 
 public class Jucator {
     private String nume, prenume;
-    private char pozitie;
     private float inaltime;
     private double greutate;
     private int numarTricou, numarGoluri, numarCGalbene, varsta, numarCRosii;
@@ -10,24 +9,22 @@ public class Jucator {
 
     public Jucator() {}
 
-    public Jucator(String nume, String prenume, char pozitie, float inaltime, double greutate, int numarTricou, int numarGoluri, int numarCGalbene, int varsta, int numarCRosii, boolean cartonasRosu) {
+    public Jucator(String nume, String prenume, float inaltime, double greutate, int numarTricou, int varsta) {
         this.nume = nume;
         this.prenume = prenume;
-        this.pozitie = pozitie;
         this.inaltime = inaltime;
         this.greutate = greutate;
         this.numarTricou = numarTricou;
-        this.numarGoluri = numarGoluri;
-        this.numarCGalbene = numarCGalbene;
         this.varsta = varsta;
-        this.numarCRosii = numarCRosii;
-        this.cartonasRosu = cartonasRosu;
+        this.numarGoluri = 0;
+        this.numarCGalbene = 0;
+        this.numarCRosii = 0;
+        this.cartonasRosu = false;
     }
 
     public Jucator(Jucator other) {
         this.nume = other.nume;
         this.prenume = other.prenume;
-        this.pozitie = other.pozitie;
         this.inaltime = other.inaltime;
         this.greutate = other.greutate;
         this.numarTricou = other.numarTricou;
@@ -55,7 +52,6 @@ public class Jucator {
         this.numarCRosii++;
     }
 
-    // Define other methods as needed
 
     public void setNume(String nume) {
         this.nume = nume;
@@ -65,9 +61,6 @@ public class Jucator {
         this.prenume = prenume;
     }
 
-    public void setPozitie(char pozitie) {
-        this.pozitie = pozitie;
-    }
 
     public void setNumarTricou(int numarTricou) {
         this.numarTricou = numarTricou;
@@ -93,9 +86,6 @@ public class Jucator {
         return this.prenume;
     }
 
-    public char getPozitie() {
-        return this.pozitie;
-    }
 
     public double getGreutate() {
         return this.greutate;
