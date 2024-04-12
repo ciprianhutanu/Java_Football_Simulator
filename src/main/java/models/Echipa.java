@@ -1,21 +1,23 @@
 package models;
 
+import java.util.List;
+
 public class Echipa {
     private String numeEchipa;
     private String abreviereEchipa;
     private String orasEchipa;
     private int numarTitulari, puncte, victorii, egaluri, infrangeri, golaveraj;
-    private Jucator[] listaTitulari;
+    private Jucator [] listaJucatori;
 
     public Echipa() {
     }
 
-    public Echipa(String numeEchipa, String abreviereEchipa, String orasEchipa, int numarTitulari, int puncte, int victorii, int egaluri, int infrangeri, int golaveraj, Jucator[] listaTitulari) {
+    public Echipa(String numeEchipa, String abreviereEchipa, String orasEchipa, int numarTitulari, int puncte, int victorii, int egaluri, int infrangeri, int golaveraj, Jucator [] listaJucatori) {
         this.numeEchipa = numeEchipa;
         this.abreviereEchipa = abreviereEchipa;
         this.orasEchipa = orasEchipa;
         this.numarTitulari = numarTitulari;
-        this.listaTitulari = listaTitulari;
+        this.listaJucatori = listaJucatori;
         this.puncte = puncte;
         this.victorii = victorii;
         this.egaluri = egaluri;
@@ -33,7 +35,7 @@ public class Echipa {
         this.egaluri = other.egaluri;
         this.infrangeri = other.infrangeri;
         this.golaveraj = other.golaveraj;
-        this.listaTitulari = other.listaTitulari.clone();
+        this.listaJucatori = other.listaJucatori.clone();
     }
 
     public void calculPuncte() {
@@ -68,8 +70,8 @@ public class Echipa {
         return this.golaveraj;
     }
 
-    public Jucator[] getListaTitulari() {
-        return this.listaTitulari;
+    public Jucator [] getListaTitulari() {
+        return this.listaJucatori;
     }
 
     public String getAbreviere() {
