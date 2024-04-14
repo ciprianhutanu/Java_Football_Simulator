@@ -6,6 +6,7 @@ import models.Mijlocas;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 public class MijlocasRepository implements GenericRepository<Mijlocas>{
     private static final String[] NUME = {
@@ -43,13 +44,40 @@ public class MijlocasRepository implements GenericRepository<Mijlocas>{
 
     @Override
     public void update(Mijlocas entity) {
+        
+    }
+
+    @Override
+    public void delete(Mijlocas entity) {
         if(entity != null){
             jucatori.remove(entity);
         }
     }
 
-    @Override
-    public void delete(Mijlocas entity) {
+    public List<Mijlocas> generareMijlocasiAleatoriu(int numJucatori, Set<Integer> numereTricou){
+        List<Mijlocas> mijlocasiAleatoriu = new ArrayList<>();
+        for(int i = 0; i < numJucatori; i++){
+            String nume = NUME[random.nextInt(NUME.length)];
+            String prenume = PRENUME[random.nextInt(PRENUME.length)];
+            int numarTricou = generareNumarTricou(numereTricou);
+            int varsta = random.nextInt(25) + 16;
+            int viteza = random.nextInt(80) + 19;
+            int sut = random.nextInt(80) + 19;
+            int dribling = random.nextInt(80) + 19;
+            int pase = random.nextInt(80) + 19;
+            int aparare = random.nextInt(80) + 19;
+            PozitiiMijloc pozitie = POZITII[random.nextInt(POZITII.length)];
+            Mijlocas mijlocas = new Mijlocas(nume, prenume, numarTricou, varsta, viteza, sut, dribling, pase, aparare, pozitie);
+            mijlocasiAleatoriu.add(mijlocas);
+        }
+        return mijlocasiAleatoriu;
+    }
 
+    private int generareNumarTricou(Set<Integer> numereTricou){
+        int numarTricou;
+        do{
+            numarTricou = random.nextInt(100) + 1;
+        }while(numereTricou.contains(numarTricou));
+        return numarTricou;
     }
 }

@@ -5,80 +5,69 @@ import java.util.List;
 public class Echipa {
     private String numeEchipa;
     private String abreviereEchipa;
-    private String orasEchipa;
-    private int numarTitulari, puncte, victorii, egaluri, infrangeri, golaveraj;
-    private Jucator [] listaJucatori;
+    private int puncte, victorii, egaluri, infrangeri, golaveraj;
+    private Jucator[] listaJucatori;
 
-    public Echipa() {
-    }
-
-    public Echipa(String numeEchipa, String abreviereEchipa, String orasEchipa, int numarTitulari, int puncte, int victorii, int egaluri, int infrangeri, int golaveraj, Jucator [] listaJucatori) {
+    public Echipa(String numeEchipa, Jucator[] listaJucatori) {
         this.numeEchipa = numeEchipa;
-        this.abreviereEchipa = abreviereEchipa;
-        this.orasEchipa = orasEchipa;
-        this.numarTitulari = numarTitulari;
+        this.abreviereEchipa = numeEchipa.substring(0,Math.min(3,numeEchipa.length()));
+        this.puncte = 0;
+        this.victorii = 0;
+        this.egaluri = 0;
+        this.infrangeri = 0;
+        this.golaveraj = 0;
         this.listaJucatori = listaJucatori;
+    }
+
+    public int getPuncte() {
+        return puncte;
+    }
+
+    public void setPuncte(int puncte) {
         this.puncte = puncte;
+    }
+
+    public int getVictorii() {
+        return victorii;
+    }
+
+    public void setVictorii(int victorii) {
         this.victorii = victorii;
+    }
+
+    public int getEgaluri() {
+        return egaluri;
+    }
+
+    public void setEgaluri(int egaluri) {
         this.egaluri = egaluri;
+    }
+
+    public int getInfrangeri() {
+        return infrangeri;
+    }
+
+    public void setInfrangeri(int infrangeri) {
         this.infrangeri = infrangeri;
-        this.golaveraj = golaveraj;
-    }
-
-    public Echipa(Echipa other) {
-        this.numeEchipa = other.numeEchipa;
-        this.abreviereEchipa = other.abreviereEchipa;
-        this.orasEchipa = other.orasEchipa;
-        this.numarTitulari = other.numarTitulari;
-        this.puncte = other.puncte;
-        this.victorii = other.victorii;
-        this.egaluri = other.egaluri;
-        this.infrangeri = other.infrangeri;
-        this.golaveraj = other.golaveraj;
-        this.listaJucatori = other.listaJucatori.clone();
-    }
-
-    public void calculPuncte() {
-        this.puncte = this.egaluri + 3 * this.victorii;
-    }
-
-    public void cresteVictorii() {
-        this.victorii++;
-    }
-
-    public void cresteInfrangeri() {
-        this.infrangeri++;
-    }
-
-    public void cresteEgaluri() {
-        this.egaluri++;
-    }
-
-    public void cresteGolaveraj(int x) {
-        this.golaveraj += x;
-    }
-
-    public int getNrJucatori() {
-        return this.numarTitulari;
-    }
-
-    public int getNrPuncte() {
-        return this.puncte;
     }
 
     public int getGolaveraj() {
-        return this.golaveraj;
+        return golaveraj;
     }
 
-    public Jucator [] getListaTitulari() {
-        return this.listaJucatori;
+    public void setGolaveraj(int golaveraj) {
+        this.golaveraj = golaveraj;
     }
 
-    public String getAbreviere() {
-        return this.abreviereEchipa;
+    public Jucator[] getListaJucatori() {
+        return listaJucatori;
     }
 
-    public String getNumeEchipa() {
-        return this.numeEchipa;
+    public void setListaJucatori(Jucator[] listaJucatori) {
+        this.listaJucatori = listaJucatori;
+    }
+
+    public String getAbreviereEchipa() {
+        return abreviereEchipa;
     }
 }

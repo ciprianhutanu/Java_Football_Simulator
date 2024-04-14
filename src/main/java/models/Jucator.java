@@ -1,6 +1,6 @@
 package models;
 
-public class Jucator {
+public abstract class Jucator {
     private String nume, prenume;
     private int numarTricou, numarGoluri, numarCGalbene, varsta, numarCRosii;
     private boolean cartonasRosu;
@@ -77,6 +77,7 @@ public class Jucator {
         return this.cartonasRosu;
     }
     public int getNumarTricou() {return this.numarTricou;}
+    public abstract double getOvr();
 
     @Override
     public String toString() {

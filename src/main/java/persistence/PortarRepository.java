@@ -5,6 +5,7 @@ import models.Portar;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 public class PortarRepository implements GenericRepository<Portar> {
     private static final String[] NUME = {
@@ -48,5 +49,27 @@ public class PortarRepository implements GenericRepository<Portar> {
         if(entity != null){
             jucatori.remove(entity);
         }
+    }
+
+    public List<Portar> generarePortariAleatoriu(int numJucatori, Set<Integer> numereTricou){
+        List<Portar> portariAleatoriu = new ArrayList<>();
+        for(int i = 0; i < numJucatori; i++){
+            String nume = NUME[random.nextInt(NUME.length)];
+            String prenume = PRENUME[random.nextInt(PRENUME.length)];
+            int numarTricou = generareNumarTricou(numereTricou);
+            int varsta = random.nextInt(25) + 16;
+            int ovr = random.nextInt(80) + 19;
+            Portar portar = new Portar(nume, prenume, numarTricou, varsta, ovr);
+            portariAleatoriu.add(portar);
+        }
+        return portariAleatoriu;
+    }
+
+    private int generareNumarTricou(Set<Integer> numereTricou){
+        int numarTricou;
+        do{
+            numarTricou = random.nextInt(100) + 1;
+        }while(numereTricou.contains(numarTricou));
+        return numarTricou;
     }
 }
