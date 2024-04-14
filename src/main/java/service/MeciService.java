@@ -22,15 +22,15 @@ public class MeciService {
         double ovrEchipa2 = echipaRepo.calculareOvrEchipa(echipa2);
 
         if(ovrEchipa1 > ovrEchipa2){
-            probGolEchipa1 = (int)((ovrEchipa1 - ovrEchipa2) / 10) + 4;
-            probGolEchipa2 = 2;
+            probGolEchipa1 = (int)((ovrEchipa1 - ovrEchipa2) / 5) + 2;
+            probGolEchipa2 = 1;
         }
         else{
-            probGolEchipa1 = 2;
-            probGolEchipa2 = (int)((ovrEchipa2 - ovrEchipa1) / 10) + 4;
+            probGolEchipa1 = 1;
+            probGolEchipa2 = (int)((ovrEchipa2 - ovrEchipa1) / 5) + 2;
         }
 
-        System.out.println(echipa1.getAbreviereEchipa() + "\t-\t" + echipa2.getAbreviereEchipa());
+        System.out.println(echipa1.getAbreviereEchipa() + "\t - \t" + echipa2.getAbreviereEchipa());
         System.out.println("-----------------------");
 
         for(int minut = 0; minut <= 90; minut++){
@@ -42,8 +42,8 @@ public class MeciService {
                 }
             }
             int eveniment = random.nextInt(100);
-            if(eveniment <= 2){
-                if(probGolEchipa1 == 2){
+            if(eveniment <= 1){
+                if(probGolEchipa1 == 1){
                     Jucator marcator = selectareMarcator(echipa1);
                     scorEchipa1++;
                     System.out.println(minut + "' GOL [" + scorEchipa1 + "] - " + scorEchipa2 + " -> " + marcator.getNume());
@@ -54,7 +54,7 @@ public class MeciService {
                     System.out.println(minut + "' GOL " + scorEchipa1 + " - [" + scorEchipa2 + "]" + " -> " + marcator.getNume());
                 }
             }
-            else if(eveniment < Math.max(probGolEchipa1, probGolEchipa2)){
+            else if(eveniment <= Math.max(probGolEchipa1, probGolEchipa2)){
                 if (probGolEchipa1 == Math.max(probGolEchipa1, probGolEchipa2)){
                     Jucator marcator = selectareMarcator(echipa1);
                     scorEchipa1++;
