@@ -12,6 +12,6 @@ public class Portar extends Jucator{
     }
     @Override
     public String toString() {
-        return super.toString() + " --- " + this.ovr;
+        return super.toString() + " PORTAR " + this.ovr;
     }
 }

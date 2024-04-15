@@ -77,6 +77,7 @@ public class AtacantRepository implements GenericRepository<Atacant> {
         do{
             numarTricou = random.nextInt(100) + 1;
         }while(numereTricou.contains(numarTricou));
+        numereTricou.add(numarTricou);
         return numarTricou;
     }
 }

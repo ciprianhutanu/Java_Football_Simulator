@@ -1,18 +1,35 @@
 package service;
 
 import models.*;
-import persistence.AparatorRepository;
-import persistence.AtacantRepository;
-import persistence.MijlocasRepository;
-import persistence.PortarRepository;
+import persistence.*;
 
 import java.util.*;
 
 public class EchipaService {
+    private String [] numeEchipe = {
+            "Steaua Bucuresti",
+            "Dinamo Bucuresti",
+            "FCSB",
+            "Rapid Bucuresti",
+            "Universitatea Craiova",
+            "CFR Cluj",
+            "Viitorul Constanta",
+            "Astra Giurgiu",
+            "Gaz Metan Medias",
+            "FC Botosani",
+            "Sepsi OSK",
+            "FC Voluntari",
+            "FC Arges",
+            "FC Hermannstadt",
+            "Chindia Targoviste",
+            "Farul Constanta",
+            "Foresta Suceava"};
     private AtacantRepository atacantRepo = new AtacantRepository();
     private MijlocasRepository mijlocasRepo = new MijlocasRepository();
     private AparatorRepository aparatorRepo = new AparatorRepository();
     private PortarRepository portarRepo = new PortarRepository();
+    private EchipaRepository echipaRepo = new EchipaRepository();
+    private Random random = new Random();
 
     public Echipa generareEchipa(String nume){
         Jucator[] jucatori = generareJucatori();
@@ -21,6 +38,27 @@ public class EchipaService {
 
         return echipaNoua;
 
+    }
+
+    public List<Echipa> generareEchipe(int numarEchipe){
+        List<Echipa> echipe = new ArrayList<>();
+
+        Set<String> verificaNume = new HashSet<>();
+
+        for(int i = 0; i < numarEchipe; i++){
+            String nume;
+            do{
+                nume = numeEchipe[random.nextInt(numeEchipe.length)];
+            }while (verificaNume.contains(nume));
+
+            verificaNume.add(nume);
+
+            Jucator[] jucatori = generareJucatori();
+
+            echipe.add(new Echipa(nume, jucatori));
+        }
+
+        return echipe;
     }
 
     public Jucator[] generareJucatori(){
@@ -39,5 +77,11 @@ public class EchipaService {
         System.arraycopy(atacanti, 0, jucatori, 8, atacanti.length);
 
         return jucatori;
+    }
+    public void afisareEchipa(Echipa echipa){
+        System.out.println(echipa.getNumeEchipa() + " <> OVR: " + Math.round(echipaRepo.calculareOvrEchipa(echipa)));
+        for(Jucator jucator : echipa.getListaJucatori()){
+            System.out.println(jucator.toString());
+        }
     }
 }

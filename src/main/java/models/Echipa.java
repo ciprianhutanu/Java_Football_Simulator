@@ -10,7 +10,7 @@ public class Echipa {
 
     public Echipa(String numeEchipa, Jucator[] listaJucatori) {
         this.numeEchipa = numeEchipa;
-        this.abreviereEchipa = numeEchipa.substring(0,Math.min(3,numeEchipa.length())).toUpperCase();
+        this.abreviereEchipa = numeEchipa.replaceAll("\\s","").substring(0,Math.min(3,numeEchipa.length())).toUpperCase();
         this.puncte = 0;
         this.victorii = 0;
         this.egaluri = 0;
@@ -69,5 +69,9 @@ public class Echipa {
 
     public String getAbreviereEchipa() {
         return abreviereEchipa;
+    }
+
+    public String getNumeEchipa() {
+        return numeEchipa;
     }
 }

@@ -10,7 +10,7 @@ import java.util.Random;
 public class MeciService {
     private EchipaRepository echipaRepo = new EchipaRepository();
     private Random random = new Random();
-    public void SimulareMeci(Meci meci, boolean sariLaRezultat){
+    public void SimulareMeci(Meci meci, boolean sariLaRezultat, boolean cuAfisare){
         Echipa echipa1 = meci.getEchipaAcasa();
         Echipa echipa2 = meci.getEchipaDeplasare();
 
@@ -29,9 +29,11 @@ public class MeciService {
             probGolEchipa1 = 1;
             probGolEchipa2 = (int)((ovrEchipa2 - ovrEchipa1) / 5) + 2;
         }
+        if(cuAfisare){
+            System.out.println(echipa1.getAbreviereEchipa() + "        -        " + echipa2.getAbreviereEchipa());
+            System.out.println("-----------------------");
+        }
 
-        System.out.println(echipa1.getAbreviereEchipa() + "\t - \t" + echipa2.getAbreviereEchipa());
-        System.out.println("-----------------------");
 
         for(int minut = 0; minut <= 90; minut++){
             if(!sariLaRezultat){
@@ -46,30 +48,60 @@ public class MeciService {
                 if(probGolEchipa1 == 1){
                     Jucator marcator = selectareMarcator(echipa1);
                     scorEchipa1++;
-                    System.out.println(minut + "' GOL [" + scorEchipa1 + "] - " + scorEchipa2 + " -> " + marcator.getNume());
+
+                    if(cuAfisare) {
+                        System.out.println(minut + "' GOL [" + scorEchipa1 + "] - " + scorEchipa2 + " -> " + marcator.getNume());
+                    }
+
                 }
                 else{
                     Jucator marcator = selectareMarcator(echipa2);
                     scorEchipa2++;
-                    System.out.println(minut + "' GOL " + scorEchipa1 + " - [" + scorEchipa2 + "]" + " -> " + marcator.getNume());
+
+                    if(cuAfisare){
+                        System.out.println(minut + "' GOL " + scorEchipa1 + " - [" + scorEchipa2 + "]" + " -> " + marcator.getNume());
+                    }
+
                 }
             }
             else if(eveniment <= Math.max(probGolEchipa1, probGolEchipa2)){
                 if (probGolEchipa1 == Math.max(probGolEchipa1, probGolEchipa2)){
                     Jucator marcator = selectareMarcator(echipa1);
                     scorEchipa1++;
-                    System.out.println(minut + "' GOL [" + scorEchipa1 + "] - " + scorEchipa2 + " -> " + marcator.getNume());
+
+                    if(cuAfisare) {
+                        System.out.println(minut + "' GOL [" + scorEchipa1 + "] - " + scorEchipa2 + " -> " + marcator.getNume());
+                    }
+
                 }
                 else{
                     Jucator marcator = selectareMarcator(echipa2);
                     scorEchipa2++;
-                    System.out.println(minut + "' GOL " + scorEchipa1 + " - [" + scorEchipa2 + "]" + " -> " + marcator.getNume());
+
+                    if(cuAfisare){
+                        System.out.println(minut + "' GOL " + scorEchipa1 + " - [" + scorEchipa2 + "]" + " -> " + marcator.getNume());
+                    }
+
                 }
             }
         }
 
-        System.out.println("-----------------------");
-        System.out.println("Scor final: " + echipa1.getAbreviereEchipa() + " " + scorEchipa1 + " - " + scorEchipa2 + " " + echipa2.getAbreviereEchipa());
+        if(cuAfisare){
+            System.out.println("-----------------------");
+        }
+
+        System.out.println("Scor final: " + echipa1.getNumeEchipa() + " " + scorEchipa1 + " - " + scorEchipa2 + " " + echipa2.getNumeEchipa());
+
+        if(scorEchipa1 > scorEchipa2){
+            echipaRepo.calcularePuncte(echipa1,'V',scorEchipa1 - scorEchipa2);
+            echipaRepo.calcularePuncte(echipa2,'I', scorEchipa2 - scorEchipa1);
+        }else if(scorEchipa2 > scorEchipa1){
+            echipaRepo.calcularePuncte(echipa1,'I',scorEchipa1 - scorEchipa2);
+            echipaRepo.calcularePuncte(echipa2,'V', scorEchipa2 - scorEchipa1);
+        }else{
+            echipaRepo.calcularePuncte(echipa1,'E',0);
+            echipaRepo.calcularePuncte(echipa2,'E', 0);
+        }
     }
 
     public Jucator selectareMarcator(Echipa echipa){

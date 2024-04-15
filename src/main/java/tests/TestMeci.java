@@ -26,6 +26,6 @@ public class TestMeci {
 
         Meci meci = new Meci(echipa1, echipa2);
 
-        meciService.SimulareMeci(meci, false);
+        meciService.SimulareMeci(meci, false, true);
     }
 }

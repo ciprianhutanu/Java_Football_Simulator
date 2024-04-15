@@ -22,6 +22,6 @@ public class Mijlocas extends Jucator{
     }
     @Override
     public String toString() {
-        return super.toString() + " --- " + this.ovr;
+        return super.toString() + " " + this.pozitie + " " + this.ovr;
     }
 }
