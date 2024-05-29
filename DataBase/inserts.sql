@@ -1,3 +1,14 @@
+INSERT INTO Echipa (idEchipa, numeEchipa, abreviereEchipa) VALUES
+                                                               (1, 'FC Steaua București', 'STB'),
+                                                               (2, 'CFR Cluj', 'CFR'),
+                                                               (3, 'Universitatea Craiova', 'CRA'),
+                                                               (4, 'FC Dinamo București', 'DIN'),
+                                                               (5, 'FC Rapid București', 'RAP'),
+                                                               (6, 'FC Viitorul Constanța', 'VTC'),
+                                                               (7, 'Astra Giurgiu', 'AST'),
+                                                               (8, 'FC Botoșani', 'BOT'),
+                                                               (9, 'Sepsi OSK Sfântu Gheorghe', 'OSK');
+
 -- FC Steaua Bucuresti
 -- Keeper
 INSERT INTO Jucator (idJucator, idEchipa, nume, prenume, numarTricou, varsta) VALUES
