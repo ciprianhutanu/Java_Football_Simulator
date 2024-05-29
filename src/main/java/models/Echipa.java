@@ -3,12 +3,14 @@ package models;
 import java.util.List;
 
 public class Echipa {
+    private int idEchipa;
     private String numeEchipa;
     private String abreviereEchipa;
     private int puncte, victorii, egaluri, infrangeri, golaveraj;
     private Jucator[] listaJucatori;
 
-    public Echipa(String numeEchipa, Jucator[] listaJucatori) {
+    public Echipa(int idEchipa, String numeEchipa, Jucator[] listaJucatori) {
+        this.idEchipa = idEchipa;
         this.numeEchipa = numeEchipa;
         this.abreviereEchipa = numeEchipa.replaceAll("\\s","").substring(0,Math.min(3,numeEchipa.length())).toUpperCase();
         this.puncte = 0;
@@ -73,5 +75,13 @@ public class Echipa {
 
     public String getNumeEchipa() {
         return numeEchipa;
+    }
+
+    public int getIdEchipa() {
+        return idEchipa;
+    }
+
+    public void setIdEchipa(int idEchipa) {
+        this.idEchipa = idEchipa;
     }
 }

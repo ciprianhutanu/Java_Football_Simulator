@@ -1,49 +1,29 @@
 package models;
 
 public abstract class Jucator {
+    private int idJucator;
+    private int idEchipa;
     private String nume, prenume;
-    private int numarTricou, numarGoluri, numarCGalbene, varsta, numarCRosii;
-    private boolean cartonasRosu;
+    private int numarTricou, varsta;
 
     public Jucator() {}
 
-    public Jucator(String nume, String prenume, int numarTricou, int varsta) {
+    public Jucator(int idJucator, int idEchipa, String nume, String prenume, int numarTricou, int varsta) {
+        this.idJucator = idJucator;
+        this.idEchipa = idEchipa;
         this.nume = nume;
         this.prenume = prenume;
         this.numarTricou = numarTricou;
         this.varsta = varsta;
-        this.numarGoluri = 0;
-        this.numarCGalbene = 0;
-        this.numarCRosii = 0;
-        this.cartonasRosu = false;
     }
 
     public Jucator(Jucator other) {
+        this.idJucator = other.idJucator;
+        this.idEchipa = other.idEchipa;
         this.nume = other.nume;
         this.prenume = other.prenume;
         this.numarTricou = other.numarTricou;
-        this.numarGoluri = other.numarGoluri;
-        this.numarCGalbene = other.numarCGalbene;
         this.varsta = other.varsta;
-        this.numarCRosii = other.numarCRosii;
-        this.cartonasRosu = other.cartonasRosu;
-    }
-
-    public void douaGalbene() {
-        this.numarCGalbene++;
-        if (this.numarCGalbene == 2) {
-            this.numarCRosii++;
-            this.cartonasRosu = true;
-            this.numarCGalbene = 0;
-        }
-    }
-
-    public void cresteCGalbene() {
-        this.numarCGalbene++;
-    }
-
-    public void cresteCRosii() {
-        this.numarCRosii++;
     }
 
 
@@ -60,11 +40,6 @@ public abstract class Jucator {
         this.numarTricou = numarTricou;
     }
 
-
-    public void setCartonasRosu(boolean cartonasRosu) {
-        this.cartonasRosu = cartonasRosu;
-    }
-
     public String getNume() {
         return this.nume;
     }
@@ -73,11 +48,24 @@ public abstract class Jucator {
         return this.prenume;
     }
 
-    public boolean getCartonasRosu() {
-        return this.cartonasRosu;
-    }
     public int getNumarTricou() {return this.numarTricou;}
     public abstract double getOvr();
+
+    public int getIdJucator() {
+        return idJucator;
+    }
+
+    public void setIdJucator(int idJucator) {
+        this.idJucator = idJucator;
+    }
+
+    public int getIdEchipa() {
+        return idEchipa;
+    }
+
+    public void setIdEchipa(int idEchipa) {
+        this.idEchipa = idEchipa;
+    }
 
     @Override
     public String toString() {

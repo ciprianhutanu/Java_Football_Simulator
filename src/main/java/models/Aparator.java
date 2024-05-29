@@ -7,8 +7,8 @@ public class Aparator extends Jucator{
     private double ovr;
     private PozitiiAparare pozitie;
 
-    public Aparator(String nume, String prenume, int numarTricou, int varsta, int viteza, int pase, int aparare, int fizic, PozitiiAparare pozitie) {
-        super(nume, prenume, numarTricou, varsta);
+    public Aparator(int idJucator, int idEchipa, String nume, String prenume, int numarTricou, int varsta, int viteza, int pase, int aparare, int fizic, PozitiiAparare pozitie) {
+        super(idJucator, idEchipa, nume, prenume, numarTricou, varsta);
         this.viteza = viteza;
         this.pase = pase;
         this.aparare = aparare;

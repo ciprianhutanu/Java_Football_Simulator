@@ -7,8 +7,8 @@ public class Mijlocas extends Jucator{
     private double ovr;
     private PozitiiMijloc pozitie;
 
-    public Mijlocas(String nume, String prenume, int numarTricou, int varsta, int viteza, int sut, int dribling, int pase, int aparare, PozitiiMijloc pozitie) {
-        super(nume, prenume, numarTricou, varsta);
+    public Mijlocas(int idJucator, int idEchipa, String nume, String prenume, int numarTricou, int varsta, int viteza, int sut, int dribling, int pase, int aparare, PozitiiMijloc pozitie) {
+        super(idJucator, idEchipa, nume, prenume, numarTricou, varsta);
         this.viteza = viteza;
         this.sut = sut;
         this.dribling = dribling;

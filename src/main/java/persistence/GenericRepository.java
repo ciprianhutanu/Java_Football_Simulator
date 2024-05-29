@@ -1,8 +1,12 @@
 package persistence;
 
+import config.DBConnection;
+
+import java.util.List;
+
 public interface GenericRepository<T> {
-    public void add(T entity);
+    DBConnection connection = DBConnection.getInstance();
+
     public T get(int id);
-    public void update(T entity);
-    public void delete(T entity);
+    public List<T> getAll();
 }

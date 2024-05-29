@@ -3,7 +3,12 @@ package persistence;
 import enums.PozitiiAparare;
 import enums.PozitiiAtac;
 import models.Aparator;
+import models.Echipa;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -27,35 +32,106 @@ public class AparatorRepository implements GenericRepository<Aparator>{
 
     private Random random = new Random();
 
-    private List<Aparator> jucatori = new ArrayList<>();
-    @Override
-    public void add(Aparator entity) {
-        jucatori.add(entity);
-    }
-
     @Override
     public Aparator get(int id) {
-        for (Aparator jucator : jucatori) {
-            if (jucator.getNumarTricou() == id) {
-                return jucator;
+        String query = "" +
+                "SELECT J.idJucator, J.idEchipa, J.nume, J.prenume, J.numarTricou, J.varsta, A.viteza, A.pase, A.aparare, A.fizic, A.pozitie " +
+                "FROM jucator J, aparator A " +
+                "WHERE J.idJucator = A.idJucator " +
+                "AND J.idJucator = ?";
+        try {
+            PreparedStatement myStm = connection.getContext().prepareStatement(query);
+
+            myStm.setInt(1, id);
+
+            ResultSet res = myStm.executeQuery();
+            if (res.next()) {
+                return new Aparator(
+                        res.getInt(1),
+                        res.getInt(2),
+                        res.getString(3),
+                        res.getString(4),
+                        res.getInt(5),
+                        res.getInt(6),
+                        res.getInt(7),
+                        res.getInt(8),
+                        res.getInt(9),
+                        res.getInt(10),
+                        PozitiiAparare.valueOf(res.getString(11)));
             }
-        }
-        return null;
-    }
-
-    @Override
-    public void update(Aparator entity) {
-
-    }
-
-    @Override
-    public void delete(Aparator entity) {
-        if(entity != null){
-            jucatori.remove(entity);
+            return null;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    public List<Aparator> generareAparatoriiAleatoriu(int numJucatori, Set<Integer> numereTricou){
+    @Override
+    public List<Aparator> getAll() {
+        List<Aparator> result = new ArrayList<>();
+
+        String query = "" +
+                "SELECT J.idJucator, J.idEchipa, J.nume, J.prenume, J.numarTricou, J.varsta, A.viteza, A.pase, A.aparare, A.fizic, A.pozitie " +
+                "FROM jucator J, aparator A " +
+                "WHERE J.idJucator = A.idJucator ";
+        try {
+            PreparedStatement myStm = connection.getContext().prepareStatement(query);
+
+            ResultSet res = myStm.executeQuery();
+            while (res.next()) {
+                result.add(new Aparator(
+                        res.getInt(1),
+                        res.getInt(2),
+                        res.getString(3),
+                        res.getString(4),
+                        res.getInt(5),
+                        res.getInt(6),
+                        res.getInt(7),
+                        res.getInt(8),
+                        res.getInt(9),
+                        res.getInt(10),
+                        PozitiiAparare.valueOf(res.getString(11))));
+            }
+            return result;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<Aparator> getAllByTeamId(int idEchipa) {
+        List<Aparator> result = new ArrayList<>();
+
+        String query = "" +
+                "SELECT J.idJucator, J.idEchipa, J.nume, J.prenume, J.numarTricou, J.varsta, A.viteza, A.pase, A.aparare, A.fizic, A.pozitie " +
+                "FROM jucator J, aparator A " +
+                "WHERE J.idJucator = A.idJucator " +
+                "AND J.idEchipa = ?";
+        try {
+            PreparedStatement myStm = connection.getContext().prepareStatement(query);
+
+            myStm.setInt(1, idEchipa);
+
+            ResultSet res = myStm.executeQuery();
+            while (res.next()) {
+                result.add(new Aparator(
+                        res.getInt(1),
+                        res.getInt(2),
+                        res.getString(3),
+                        res.getString(4),
+                        res.getInt(5),
+                        res.getInt(6),
+                        res.getInt(7),
+                        res.getInt(8),
+                        res.getInt(9),
+                        res.getInt(10),
+                        PozitiiAparare.valueOf(res.getString(11))));
+            }
+            return result;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+        public List<Aparator> generareAparatoriiAleatoriu(int idCounter, int idEchipa, int numJucatori, Set<Integer> numereTricou){
         List<Aparator> aparatoriAleatoriu = new ArrayList<>();
         for(int i = 0; i < numJucatori; i++){
             String nume = NUME[random.nextInt(NUME.length)];
@@ -67,8 +143,9 @@ public class AparatorRepository implements GenericRepository<Aparator>{
             int aparare = random.nextInt(80) + 19;
             int fizic = random.nextInt(80) + 19;
             PozitiiAparare pozitie = POZITII[random.nextInt(POZITII.length)];
-            Aparator aparator = new Aparator(nume, prenume, numarTricou, varsta, viteza, pase, aparare, fizic, pozitie);
+            Aparator aparator = new Aparator(idCounter, idEchipa, nume, prenume, numarTricou, varsta, viteza, pase, aparare, fizic, pozitie);
             aparatoriAleatoriu.add(aparator);
+            idCounter++;
         }
         return aparatoriAleatoriu;
     }

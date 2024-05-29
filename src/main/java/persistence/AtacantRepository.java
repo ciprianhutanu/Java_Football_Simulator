@@ -1,8 +1,13 @@
 package persistence;
 
+import enums.PozitiiAparare;
 import enums.PozitiiAtac;
+import models.Aparator;
 import models.Atacant;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -26,35 +31,106 @@ public class AtacantRepository implements GenericRepository<Atacant> {
 
     private Random random = new Random();
 
-    private List<Atacant> jucatori = new ArrayList<>();
-    @Override
-    public void add(Atacant entity) {
-        jucatori.add(entity);
-    }
-
     @Override
     public Atacant get(int id) {
-        for (Atacant jucator : jucatori) {
-            if (jucator.getNumarTricou() == id) {
-                return jucator;
+        String query = "" +
+                "SELECT J.idJucator, J.idEchipa, J.nume, J.prenume, J.numarTricou, J.varsta, A.viteza, A.sut, A.dribling, A.pase, A.pozitie " +
+                "FROM jucator J, atacant A " +
+                "WHERE J.idJucator = A.idJucator " +
+                "AND J.idJucator = ?";
+        try {
+            PreparedStatement myStm = connection.getContext().prepareStatement(query);
+
+            myStm.setInt(1, id);
+
+            ResultSet res = myStm.executeQuery();
+            if (res.next()) {
+                return new Atacant(
+                        res.getInt(1),
+                        res.getInt(2),
+                        res.getString(3),
+                        res.getString(4),
+                        res.getInt(5),
+                        res.getInt(6),
+                        res.getInt(7),
+                        res.getInt(8),
+                        res.getInt(9),
+                        res.getInt(10),
+                        PozitiiAtac.valueOf(res.getString(11)));
             }
-        }
-        return null;
-    }
-
-    @Override
-    public void update(Atacant entity) {
-
-    }
-
-    @Override
-    public void delete(Atacant entity) {
-        if(entity != null){
-            jucatori.remove(entity);
+            return null;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    public List<Atacant> generareAtacantiAleatoriu(int numJucatori, Set<Integer> numereTricou){
+    @Override
+    public List<Atacant> getAll() {
+        List<Atacant> result = new ArrayList<>();
+
+        String query = "" +
+                "SELECT J.idJucator, J.idEchipa, J.nume, J.prenume, J.numarTricou, J.varsta, A.viteza, A.sut, A.dribling, A.pase, A.pozitie " +
+                "FROM jucator J, atacant A " +
+                "WHERE J.idJucator = A.idJucator ";
+        try {
+            PreparedStatement myStm = connection.getContext().prepareStatement(query);
+
+            ResultSet res = myStm.executeQuery();
+            while (res.next()) {
+                result.add(new Atacant(
+                        res.getInt(1),
+                        res.getInt(2),
+                        res.getString(3),
+                        res.getString(4),
+                        res.getInt(5),
+                        res.getInt(6),
+                        res.getInt(7),
+                        res.getInt(8),
+                        res.getInt(9),
+                        res.getInt(10),
+                        PozitiiAtac.valueOf(res.getString(11))));
+            }
+            return result;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<Atacant> getAllByTeamId(int idEchipa) {
+        List<Atacant> result = new ArrayList<>();
+
+        String query = "" +
+                "SELECT J.idJucator, J.idEchipa, J.nume, J.prenume, J.numarTricou, J.varsta, A.viteza, A.sut, A.dribling, A.pase, A.pozitie " +
+                "FROM jucator J, atacant A " +
+                "WHERE J.idJucator = A.idJucator " +
+                "AND J.idEchipa = ?";
+        try {
+            PreparedStatement myStm = connection.getContext().prepareStatement(query);
+
+            myStm.setInt(1, idEchipa);
+
+            ResultSet res = myStm.executeQuery();
+            while (res.next()) {
+                result.add(new Atacant(
+                        res.getInt(1),
+                        res.getInt(2),
+                        res.getString(3),
+                        res.getString(4),
+                        res.getInt(5),
+                        res.getInt(6),
+                        res.getInt(7),
+                        res.getInt(8),
+                        res.getInt(9),
+                        res.getInt(10),
+                        PozitiiAtac.valueOf(res.getString(11))));
+            }
+            return result;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<Atacant> generareAtacantiAleatoriu(int idCounter, int idEchipa, int numJucatori, Set<Integer> numereTricou){
         List<Atacant> atacantiAleatoriu = new ArrayList<>();
         for(int i = 0; i < numJucatori; i++){
             String nume = NUME[random.nextInt(NUME.length)];
@@ -66,8 +142,9 @@ public class AtacantRepository implements GenericRepository<Atacant> {
             int dribling = random.nextInt(80) + 19;
             int pase = random.nextInt(80) + 19;
             PozitiiAtac pozitie = POZITII[random.nextInt(POZITII.length)];
-            Atacant atacant = new Atacant(nume, prenume, numarTricou, varsta, viteza, sut, dribling, pase, pozitie);
+            Atacant atacant = new Atacant(idCounter, idEchipa, nume, prenume, numarTricou, varsta, viteza, sut, dribling, pase, pozitie);
             atacantiAleatoriu.add(atacant);
+            idCounter++;
         }
         return atacantiAleatoriu;
     }

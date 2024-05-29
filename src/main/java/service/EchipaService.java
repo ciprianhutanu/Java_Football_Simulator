@@ -32,44 +32,24 @@ public class EchipaService {
     private Random random = new Random();
 
     public Echipa generareEchipa(String nume){
-        Jucator[] jucatori = generareJucatori();
+        Jucator[] jucatori = generareJucatori(10);
 
-        Echipa echipaNoua = new Echipa(nume, jucatori);
+        Echipa echipaNoua = new Echipa(10, nume, jucatori);
 
         return echipaNoua;
 
     }
 
-    public List<Echipa> generareEchipe(int numarEchipe){
-        List<Echipa> echipe = new ArrayList<>();
-
-        Set<String> verificaNume = new HashSet<>();
-
-        for(int i = 0; i < numarEchipe; i++){
-            String nume;
-            do{
-                nume = numeEchipe[random.nextInt(numeEchipe.length)];
-            }while (verificaNume.contains(nume));
-
-            verificaNume.add(nume);
-
-            Jucator[] jucatori = generareJucatori();
-
-            echipe.add(new Echipa(nume, jucatori));
-        }
-
-        return echipe;
-    }
-
-    public Jucator[] generareJucatori(){
+    public Jucator[] generareJucatori(int idEchipa){
+        int countIdJucatori = 100;
         Jucator[] jucatori = new Jucator[11];
 
         Set<Integer> numereTricouri = new HashSet<>();
 
-        Atacant[] atacanti = atacantRepo.generareAtacantiAleatoriu(3,numereTricouri).toArray(new Atacant[0]);
-        Mijlocas[] mijlocasi = mijlocasRepo.generareMijlocasiAleatoriu(3,numereTricouri).toArray(new Mijlocas[0]);
-        Aparator[] aparatori = aparatorRepo.generareAparatoriiAleatoriu(4,numereTricouri).toArray(new Aparator[0]);
-        Portar[] portari = portarRepo.generarePortariAleatoriu(1,numereTricouri).toArray(new Portar[0]);
+        Atacant[] atacanti = atacantRepo.generareAtacantiAleatoriu(countIdJucatori, idEchipa, 3, numereTricouri).toArray(new Atacant[0]);
+        Mijlocas[] mijlocasi = mijlocasRepo.generareMijlocasiAleatoriu(countIdJucatori, idEchipa, 3, numereTricouri).toArray(new Mijlocas[0]);
+        Aparator[] aparatori = aparatorRepo.generareAparatoriiAleatoriu(countIdJucatori, idEchipa, 4, numereTricouri).toArray(new Aparator[0]);
+        Portar[] portari = portarRepo.generarePortariAleatoriu(countIdJucatori, idEchipa, 1, numereTricouri).toArray(new Portar[0]);
 
         System.arraycopy(portari, 0, jucatori, 0 ,portari.length);
         System.arraycopy(aparatori, 0, jucatori, 1, aparatori.length);

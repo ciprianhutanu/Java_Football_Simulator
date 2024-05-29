@@ -12,7 +12,7 @@ public class TestGenerareJucatori {
     public static void main(String[] args) {
         AtacantRepository _repo = new AtacantRepository();
         Set<Integer> numarTricou = new HashSet<>();
-        List<Atacant> jucatori = _repo.generareAtacantiAleatoriu(10,numarTricou);
+        List<Atacant> jucatori = _repo.generareAtacantiAleatoriu(1100, 10, 10,numarTricou);
         Jucator[] arr = jucatori.toArray(new Atacant[0]);
         for(int i = 0; i< jucatori.size(); i++){
             System.out.println(arr[i].toString());

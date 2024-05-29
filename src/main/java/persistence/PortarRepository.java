@@ -2,6 +2,9 @@ package persistence;
 
 import models.Portar;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -23,35 +26,93 @@ public class PortarRepository implements GenericRepository<Portar> {
 
     private Random random = new Random();
 
-    private List<Portar> jucatori = new ArrayList<>();
-    @Override
-    public void add(Portar entity) {
-        jucatori.add(entity);
-    }
-
-    @Override
     public Portar get(int id) {
-        for (Portar jucator : jucatori) {
-            if (jucator.getNumarTricou() == id) {
-                return jucator;
+        String query = "" +
+                "SELECT J.idJucator, J.idEchipa, J.nume, J.prenume, J.numarTricou, J.varsta, P.ovr " +
+                "FROM jucator J, portar P " +
+                "WHERE J.idJucator = P.idJucator " +
+                "AND J.idJucator = ?";
+        try {
+            PreparedStatement myStm = connection.getContext().prepareStatement(query);
+
+            myStm.setInt(1, id);
+
+            ResultSet res = myStm.executeQuery();
+            if (res.next()) {
+                return new Portar(
+                        res.getInt(1),
+                        res.getInt(2),
+                        res.getString(3),
+                        res.getString(4),
+                        res.getInt(5),
+                        res.getInt(6),
+                        res.getInt(7));
             }
-        }
-        return null;
-    }
-
-    @Override
-    public void update(Portar entity) {
-
-    }
-
-    @Override
-    public void delete(Portar entity) {
-        if(entity != null){
-            jucatori.remove(entity);
+            return null;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    public List<Portar> generarePortariAleatoriu(int numJucatori, Set<Integer> numereTricou){
+    @Override
+    public List<Portar> getAll() {
+        List<Portar> result = new ArrayList<>();
+
+        String query = "" +
+                "SELECT J.idJucator, J.idEchipa, J.nume, J.prenume, J.numarTricou, J.varsta, P.ovr " +
+                "FROM jucator J, portar P " +
+                "WHERE J.idJucator = P.idJucator ";
+        try {
+            PreparedStatement myStm = connection.getContext().prepareStatement(query);
+
+            ResultSet res = myStm.executeQuery();
+            while (res.next()) {
+                result.add(new Portar(
+                        res.getInt(1),
+                        res.getInt(2),
+                        res.getString(3),
+                        res.getString(4),
+                        res.getInt(5),
+                        res.getInt(6),
+                        res.getInt(7)));
+            }
+            return result;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<Portar> getAllByTeamId(int idEchipa) {
+        List<Portar> result = new ArrayList<>();
+
+        String query = "" +
+                "SELECT J.idJucator, J.idEchipa, J.nume, J.prenume, J.numarTricou, J.varsta, P.ovr " +
+                "FROM jucator J, portar P " +
+                "WHERE J.idJucator = P.idJucator " +
+                "AND J.idEchipa = ?";
+        try {
+            PreparedStatement myStm = connection.getContext().prepareStatement(query);
+
+            myStm.setInt(1, idEchipa);
+
+            ResultSet res = myStm.executeQuery();
+            while (res.next()) {
+                result.add(new Portar(
+                        res.getInt(1),
+                        res.getInt(2),
+                        res.getString(3),
+                        res.getString(4),
+                        res.getInt(5),
+                        res.getInt(6),
+                        res.getInt(7)));
+            }
+            return result;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<Portar> generarePortariAleatoriu(int idCounter, int idEchipa, int numJucatori, Set<Integer> numereTricou){
         List<Portar> portariAleatoriu = new ArrayList<>();
         for(int i = 0; i < numJucatori; i++){
             String nume = NUME[random.nextInt(NUME.length)];
@@ -59,8 +120,9 @@ public class PortarRepository implements GenericRepository<Portar> {
             int numarTricou = generareNumarTricou(numereTricou);
             int varsta = random.nextInt(25) + 16;
             int ovr = random.nextInt(80) + 19;
-            Portar portar = new Portar(nume, prenume, numarTricou, varsta, ovr);
+            Portar portar = new Portar(idCounter, idEchipa, nume, prenume, numarTricou, varsta, ovr);
             portariAleatoriu.add(portar);
+            idCounter++;
         }
         return portariAleatoriu;
     }

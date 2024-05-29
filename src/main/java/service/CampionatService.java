@@ -4,21 +4,22 @@ import compare.EchipaComparator;
 import models.Campionat;
 import models.Echipa;
 import models.Meci;
+import persistence.EchipaRepository;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class CampionatService {
-    private EchipaService echipaService = new EchipaService();
+    private EchipaRepository echipaRepo = new EchipaRepository();
     private MeciService meciService = new MeciService();
     private List<List<Meci>> etape = new ArrayList<>();
 
-    private static final int numarEchipe = 8;
+    private static final int numarEchipe = 10;
     private int numarEtapa = 0;
 
     public Campionat generareLigaInteractiva(String denumire, Echipa echipaDeUrmarit){
-        List<Echipa> echipe = echipaService.generareEchipe(numarEchipe - 1);
+        List<Echipa> echipe = echipaRepo.getAll();
         echipe.add(0, echipaDeUrmarit);
 
         Campionat campionat = new Campionat(denumire, echipe.toArray(new Echipa[0]));

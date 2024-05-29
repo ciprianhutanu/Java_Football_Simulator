@@ -1,8 +1,13 @@
 package persistence;
 
+import enums.PozitiiAtac;
 import enums.PozitiiMijloc;
+import models.Atacant;
 import models.Mijlocas;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -26,35 +31,108 @@ public class MijlocasRepository implements GenericRepository<Mijlocas>{
 
     private Random random = new Random();
 
-    private List<Mijlocas> jucatori = new ArrayList<>();
-    @Override
-    public void add(Mijlocas entity) {
-        jucatori.add(entity);
-    }
-
-    @Override
     public Mijlocas get(int id) {
-        for (Mijlocas jucator : jucatori) {
-            if (jucator.getNumarTricou() == id) {
-                return jucator;
+        String query = "" +
+                "SELECT J.idJucator, J.idEchipa, J.nume, J.prenume, J.numarTricou, J.varsta, M.viteza, M.sut, M.dribling, M.pase, M.aparare, M.pozitie " +
+                "FROM jucator J, mijlocas M " +
+                "WHERE J.idJucator = M.idJucator " +
+                "AND J.idJucator = ?";
+        try {
+            PreparedStatement myStm = connection.getContext().prepareStatement(query);
+
+            myStm.setInt(1, id);
+
+            ResultSet res = myStm.executeQuery();
+            if (res.next()) {
+                return new Mijlocas(
+                        res.getInt(1),
+                        res.getInt(2),
+                        res.getString(3),
+                        res.getString(4),
+                        res.getInt(5),
+                        res.getInt(6),
+                        res.getInt(7),
+                        res.getInt(8),
+                        res.getInt(9),
+                        res.getInt(10),
+                        res.getInt(11),
+                        PozitiiMijloc.valueOf(res.getString(12)));
             }
-        }
-        return null;
-    }
-
-    @Override
-    public void update(Mijlocas entity) {
-        
-    }
-
-    @Override
-    public void delete(Mijlocas entity) {
-        if(entity != null){
-            jucatori.remove(entity);
+            return null;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    public List<Mijlocas> generareMijlocasiAleatoriu(int numJucatori, Set<Integer> numereTricou){
+    @Override
+    public List<Mijlocas> getAll() {
+        List<Mijlocas> result = new ArrayList<>();
+
+        String query = "" +
+                "SELECT J.idJucator, J.idEchipa, J.nume, J.prenume, J.numarTricou, J.varsta, M.viteza, M.sut, M.dribling, M.pase, M.aparare, M.pozitie " +
+                "FROM jucator J, mijlocas M " +
+                "WHERE J.idJucator = M.idJucator ";
+        try {
+            PreparedStatement myStm = connection.getContext().prepareStatement(query);
+
+            ResultSet res = myStm.executeQuery();
+            while (res.next()) {
+                result.add(new Mijlocas(
+                        res.getInt(1),
+                        res.getInt(2),
+                        res.getString(3),
+                        res.getString(4),
+                        res.getInt(5),
+                        res.getInt(6),
+                        res.getInt(7),
+                        res.getInt(8),
+                        res.getInt(9),
+                        res.getInt(10),
+                        res.getInt(11),
+                        PozitiiMijloc.valueOf(res.getString(12))));
+            }
+            return result;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<Mijlocas> getAllByTeamId(int idEchipa) {
+        List<Mijlocas> result = new ArrayList<>();
+
+        String query = "" +
+                "SELECT J.idJucator, J.idEchipa, J.nume, J.prenume, J.numarTricou, J.varsta, M.viteza, M.sut, M.dribling, M.pase, M.aparare, M.pozitie " +
+                "FROM jucator J, mijlocas M " +
+                "WHERE J.idJucator = M.idJucator " +
+                "AND J.idEchipa = ?";
+        try {
+            PreparedStatement myStm = connection.getContext().prepareStatement(query);
+
+            myStm.setInt(1, idEchipa);
+
+            ResultSet res = myStm.executeQuery();
+            while (res.next()) {
+                result.add(new Mijlocas(
+                        res.getInt(1),
+                        res.getInt(2),
+                        res.getString(3),
+                        res.getString(4),
+                        res.getInt(5),
+                        res.getInt(6),
+                        res.getInt(7),
+                        res.getInt(8),
+                        res.getInt(9),
+                        res.getInt(10),
+                        res.getInt(11),
+                        PozitiiMijloc.valueOf(res.getString(12))));
+            }
+            return result;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<Mijlocas> generareMijlocasiAleatoriu(int idCounter, int idEchipa, int numJucatori, Set<Integer> numereTricou){
         List<Mijlocas> mijlocasiAleatoriu = new ArrayList<>();
         for(int i = 0; i < numJucatori; i++){
             String nume = NUME[random.nextInt(NUME.length)];
@@ -67,8 +145,9 @@ public class MijlocasRepository implements GenericRepository<Mijlocas>{
             int pase = random.nextInt(80) + 19;
             int aparare = random.nextInt(80) + 19;
             PozitiiMijloc pozitie = POZITII[random.nextInt(POZITII.length)];
-            Mijlocas mijlocas = new Mijlocas(nume, prenume, numarTricou, varsta, viteza, sut, dribling, pase, aparare, pozitie);
+            Mijlocas mijlocas = new Mijlocas(idCounter, idEchipa, nume, prenume, numarTricou, varsta, viteza, sut, dribling, pase, aparare, pozitie);
             mijlocasiAleatoriu.add(mijlocas);
+            idCounter++;
         }
         return mijlocasiAleatoriu;
     }

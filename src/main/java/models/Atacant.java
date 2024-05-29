@@ -7,8 +7,8 @@ public class Atacant extends Jucator{
     private double ovr;
     private PozitiiAtac pozitie;
 
-    public Atacant(String nume, String prenume, int numarTricou, int varsta, int viteza, int sut, int dribling, int pase, PozitiiAtac pozitie) {
-        super(nume, prenume, numarTricou, varsta);
+    public Atacant(int idJucator, int idEchipa, String nume, String prenume, int numarTricou, int varsta, int viteza, int sut, int dribling, int pase, PozitiiAtac pozitie) {
+        super(idJucator, idEchipa, nume, prenume, numarTricou, varsta);
         this.viteza = viteza;
         this.sut = sut;
         this.dribling = dribling;
