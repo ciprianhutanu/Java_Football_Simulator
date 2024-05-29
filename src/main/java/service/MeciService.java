@@ -1,5 +1,6 @@
 package service;
 
+import config.Audit;
 import models.*;
 import persistence.EchipaRepository;
 
@@ -8,8 +9,10 @@ import java.util.List;
 import java.util.Random;
 
 public class MeciService {
+    private Audit audit = Audit.getInstance();
     private EchipaRepository echipaRepo = EchipaRepository.getInstance();
     private Random random = new Random();
+
     public void SimulareMeci(Meci meci, boolean sariLaRezultat, boolean cuAfisare){
         Echipa echipa1 = meci.getEchipaAcasa();
         Echipa echipa2 = meci.getEchipaDeplasare();
@@ -102,6 +105,8 @@ public class MeciService {
             echipaRepo.calcularePuncte(echipa1,'E',0);
             echipaRepo.calcularePuncte(echipa2,'E', 0);
         }
+
+        audit.write("Meci simulat", echipa1.getNumeEchipa() + " " + scorEchipa1 + " - " + scorEchipa2 + " " + echipa2.getNumeEchipa());
     }
 
     public Jucator selectareMarcator(Echipa echipa){

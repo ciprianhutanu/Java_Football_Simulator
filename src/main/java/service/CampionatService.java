@@ -1,6 +1,7 @@
 package service;
 
 import compare.EchipaComparator;
+import config.Audit;
 import models.Campionat;
 import models.Echipa;
 import models.Meci;
@@ -11,6 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class CampionatService {
+    private Audit audit = Audit.getInstance();
     private EchipaRepository echipaRepo = EchipaRepository.getInstance();
     private MeciService meciService = new MeciService();
     private List<List<Meci>> etape = new ArrayList<>();
@@ -25,6 +27,8 @@ public class CampionatService {
         Campionat campionat = new Campionat(denumire, echipe.toArray(new Echipa[0]));
 
         etape = generareEtape(echipe);
+
+        audit.write("Generare Campionat", "Utilizatorul a generat campionatul.");
 
         return campionat;
     }
@@ -60,6 +64,9 @@ public class CampionatService {
         for(int i = 1; i < numarEchipe / 2; i++){
             meciService.SimulareMeci(etape.get(numarEtapa).get(i),true,false);
         }
+
+        audit.write("Etapa", "A fost simulata etapa "+numarEtapa+".");
+
         numarEtapa++;
     }
 
@@ -75,5 +82,7 @@ public class CampionatService {
             System.out.println(echipa.getAbreviereEchipa()+"\t \t"+echipa.getPuncte()+"\t \t"+echipa.getVictorii()+"\t \t"+echipa.getEgaluri()
                     +"\t \t"+echipa.getInfrangeri()+"\t \t"+echipa.getGolaveraj());
         }
+
+        audit.write("Clasament", "Utilizatorul a afisat clasamentul.");
     }
 }

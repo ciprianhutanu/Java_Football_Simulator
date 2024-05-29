@@ -1,5 +1,6 @@
 package persistence;
 
+import config.Audit;
 import config.DBConnection;
 
 import java.util.List;

@@ -1,29 +1,13 @@
 package service;
 
+import config.Audit;
 import models.*;
 import persistence.*;
 
 import java.util.*;
 
 public class EchipaService {
-    private String [] numeEchipe = {
-            "Steaua Bucuresti",
-            "Dinamo Bucuresti",
-            "FCSB",
-            "Rapid Bucuresti",
-            "Universitatea Craiova",
-            "CFR Cluj",
-            "Viitorul Constanta",
-            "Astra Giurgiu",
-            "Gaz Metan Medias",
-            "FC Botosani",
-            "Sepsi OSK",
-            "FC Voluntari",
-            "FC Arges",
-            "FC Hermannstadt",
-            "Chindia Targoviste",
-            "Farul Constanta",
-            "Foresta Suceava"};
+    private Audit audit = Audit.getInstance();
     private AtacantRepository atacantRepo = AtacantRepository.getInstance();
     private MijlocasRepository mijlocasRepo = MijlocasRepository.getInstance();
     private AparatorRepository aparatorRepo = AparatorRepository.getInstance();
@@ -36,6 +20,7 @@ public class EchipaService {
 
         Echipa echipaNoua = new Echipa(10, nume, jucatori);
 
+        audit.write("Generare Echipa", "Utilizatorul si-a generat echipa.");
         return echipaNoua;
 
     }
