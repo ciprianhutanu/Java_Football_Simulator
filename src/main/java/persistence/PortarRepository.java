@@ -26,6 +26,16 @@ public class PortarRepository implements GenericRepository<Portar> {
 
     private Random random = new Random();
 
+    private static PortarRepository instance;
+
+    private PortarRepository() {}
+    public static PortarRepository getInstance() {
+        if (instance == null) {
+            instance = new PortarRepository();
+        }
+        return instance;
+    }
+
     public Portar get(int id) {
         String query = "" +
                 "SELECT J.idJucator, J.idEchipa, J.nume, J.prenume, J.numarTricou, J.varsta, P.ovr " +

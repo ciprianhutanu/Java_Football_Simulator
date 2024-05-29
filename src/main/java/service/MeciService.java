@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Random;
 
 public class MeciService {
-    private EchipaRepository echipaRepo = new EchipaRepository();
+    private EchipaRepository echipaRepo = EchipaRepository.getInstance();
     private Random random = new Random();
     public void SimulareMeci(Meci meci, boolean sariLaRezultat, boolean cuAfisare){
         Echipa echipa1 = meci.getEchipaAcasa();

@@ -9,10 +9,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EchipaRepository implements GenericRepository<Echipa>{
-    private final AtacantRepository atacantRepo = new AtacantRepository();
-    private final MijlocasRepository mijlocasRepo = new MijlocasRepository();
-    private final AparatorRepository aparatorRepo = new AparatorRepository();
-    private final PortarRepository portarRepo = new PortarRepository();
+    private static EchipaRepository instance = null;
+    private static AtacantRepository atacantRepo;
+    private static MijlocasRepository mijlocasRepo;
+    private static AparatorRepository aparatorRepo;
+    private static PortarRepository portarRepo;
+
+    private EchipaRepository() {}
+    public static EchipaRepository getInstance() {
+        if(instance == null) {
+            instance = new EchipaRepository();
+            atacantRepo = AtacantRepository.getInstance();
+            mijlocasRepo = MijlocasRepository.getInstance();
+            aparatorRepo = AparatorRepository.getInstance();
+            portarRepo = PortarRepository.getInstance();
+        }
+        return instance;
+    }
+
 
     @Override
     public Echipa get(int id) {

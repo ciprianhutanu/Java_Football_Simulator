@@ -24,11 +24,11 @@ public class EchipaService {
             "Chindia Targoviste",
             "Farul Constanta",
             "Foresta Suceava"};
-    private AtacantRepository atacantRepo = new AtacantRepository();
-    private MijlocasRepository mijlocasRepo = new MijlocasRepository();
-    private AparatorRepository aparatorRepo = new AparatorRepository();
-    private PortarRepository portarRepo = new PortarRepository();
-    private EchipaRepository echipaRepo = new EchipaRepository();
+    private AtacantRepository atacantRepo = AtacantRepository.getInstance();
+    private MijlocasRepository mijlocasRepo = MijlocasRepository.getInstance();
+    private AparatorRepository aparatorRepo = AparatorRepository.getInstance();
+    private PortarRepository portarRepo = PortarRepository.getInstance();
+    private EchipaRepository echipaRepo = EchipaRepository.getInstance();
     private Random random = new Random();
 
     public Echipa generareEchipa(String nume){

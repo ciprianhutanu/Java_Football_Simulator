@@ -10,7 +10,7 @@ import java.util.Set;
 
 public class TestGenerareJucatori {
     public static void main(String[] args) {
-        AtacantRepository _repo = new AtacantRepository();
+        AtacantRepository _repo = AtacantRepository.getInstance();
         Set<Integer> numarTricou = new HashSet<>();
         List<Atacant> jucatori = _repo.generareAtacantiAleatoriu(1100, 10, 10,numarTricou);
         Jucator[] arr = jucatori.toArray(new Atacant[0]);

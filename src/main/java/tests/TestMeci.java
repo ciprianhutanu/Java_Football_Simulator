@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class TestMeci {
     public static void main(String[] args) {
         EchipaService echipaService = new EchipaService();
-        EchipaRepository echipaRepository = new EchipaRepository();
+        EchipaRepository echipaRepository = EchipaRepository.getInstance();
         MeciService meciService = new MeciService();
 
         Echipa echipa1 = echipaService.generareEchipa("FCSB");

@@ -32,6 +32,16 @@ public class AparatorRepository implements GenericRepository<Aparator>{
 
     private Random random = new Random();
 
+    private static AparatorRepository instance = null;
+
+    private AparatorRepository() {}
+    public static AparatorRepository getInstance() {
+        if (instance == null) {
+            instance = new AparatorRepository();
+        }
+        return instance;
+    }
+
     @Override
     public Aparator get(int id) {
         String query = "" +

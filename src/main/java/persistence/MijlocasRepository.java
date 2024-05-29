@@ -31,6 +31,16 @@ public class MijlocasRepository implements GenericRepository<Mijlocas>{
 
     private Random random = new Random();
 
+    private static MijlocasRepository instance;
+
+    private MijlocasRepository() {}
+    public static MijlocasRepository getInstance() {
+        if (instance == null) {
+            instance = new MijlocasRepository();
+        }
+        return instance;
+    }
+
     public Mijlocas get(int id) {
         String query = "" +
                 "SELECT J.idJucator, J.idEchipa, J.nume, J.prenume, J.numarTricou, J.varsta, M.viteza, M.sut, M.dribling, M.pase, M.aparare, M.pozitie " +

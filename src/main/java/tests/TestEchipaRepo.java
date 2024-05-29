@@ -7,7 +7,7 @@ import java.util.List;
 
 public class TestEchipaRepo {
     public static void main(String[] args) {
-        EchipaRepository e = new EchipaRepository();
+        EchipaRepository e = EchipaRepository.getInstance();
 
         List<Echipa> list = e.getAll();
 

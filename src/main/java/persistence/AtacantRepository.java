@@ -31,6 +31,16 @@ public class AtacantRepository implements GenericRepository<Atacant> {
 
     private Random random = new Random();
 
+    private static AtacantRepository instance;
+
+    private AtacantRepository() {}
+    public static AtacantRepository getInstance() {
+        if (instance == null) {
+            instance = new AtacantRepository();
+        }
+        return instance;
+    }
+
     @Override
     public Atacant get(int id) {
         String query = "" +

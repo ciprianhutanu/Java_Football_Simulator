@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class CampionatService {
-    private EchipaRepository echipaRepo = new EchipaRepository();
+    private EchipaRepository echipaRepo = EchipaRepository.getInstance();
     private MeciService meciService = new MeciService();
     private List<List<Meci>> etape = new ArrayList<>();
 
