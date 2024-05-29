@@ -17,7 +17,7 @@ in romanian. The stats are also random generated.
 The player has 3 choices from this point:
 1. To simulate one stage. 
 > In this version the only event it generates is the **GOAL**
-> event. It is a balanced on the team overall rating, with
+> event. It is balanced on the team overall rating, with
 > attackers having the higher chance of scoring.
 2. To display the league table.
 3. To close the program.
